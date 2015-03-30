@@ -16,8 +16,9 @@ public class Node implements Comparable<Node> {
          * @param y 
          */
         public Node(int x, int y) {
-            this.x              = x;
-            this.y              = y;
+            this.x       = x;
+            this.y       = y;
+            this.hood    = new ArrayList<>();
         }
         
 
@@ -185,7 +186,7 @@ public class Node implements Comparable<Node> {
         
         private final int           x;
         private final int           y;
-        private final List<Node>    hood = new ArrayList<>();
+        private final List<Node>    hood;
         private int                 costOfMovement;
         private int                 costToGoal;
         private Node                parent;

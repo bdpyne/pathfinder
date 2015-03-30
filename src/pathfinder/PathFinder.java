@@ -47,8 +47,13 @@ public class PathFinder {
 //        while (! found) {
             // Temporarily impose a 100 iteration limit.
             for (int i=0; i < 100; i++) {
+                
             Collections.sort(open);
             current = open.get(0);
+            
+            
+            current.print();
+            
             open.remove(current);
             closed.add(current);
             
