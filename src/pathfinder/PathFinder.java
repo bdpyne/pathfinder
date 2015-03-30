@@ -44,8 +44,9 @@ public class PathFinder {
         Node current = start;
         open.add(current);
         
-        while (! found) {
-            System.out.println("In here");
+//        while (! found) {
+            // Temporarily impose a 100 iteration limit.
+            for (int i=0; i < 100; i++) {
             Collections.sort(open);
             current = open.get(0);
             open.remove(current);
@@ -59,7 +60,9 @@ public class PathFinder {
                 this.buildNeighborhood(current);
                 addNeighborsToOpen(current);                
             }
-        }
+                
+            }
+ //       }
         
     }
     
