@@ -32,7 +32,7 @@ public class PathFinder {
         open   = new ArrayList<>();
         closed = new ArrayList<>();
         goal   = new Node(4,5);
-        start  = new Node(4,1);
+        start  = new Node(4,1, goal);
         found  = false;       
     }
     
@@ -62,7 +62,7 @@ public class PathFinder {
                 System.out.println("INFO: Found goal " + current.getX() + "," + current.getY());
             }
             else {
-                this.buildNeighborhood(current);
+                current.buildNeighborhood();
                 addNeighborsToOpen(current);                
             }
                 
@@ -120,55 +120,6 @@ public class PathFinder {
             }
         }
     }
-
-    
-    /**
-     * 
-     * @param other
-     * @return 
-     */
-    private int calculateCostToGoal(Node node) {
-        int diffX = Math.abs(goal.getX() - node.getX());
-        int diffY = Math.abs(goal.getY() - node.getY());
-        
-        return (diffX + diffY) * 10;
-    }
-
-    
-    /**
-     * 
-     * @param current 
-     */
-    private void buildNeighborhood(Node current) {
-        List<Node> hood = current.getNeighborhood();
-        int        x    = current.getX();
-        int        y    = current.getY();
-        
-        hood.add(new Node(x, y-1));
-        hood.add(new Node(x+1, y-1));
-        hood.add(new Node(x+1, y));
-        hood.add(new Node(x+1, y+1));
-        hood.add(new Node(x, y+1));
-        hood.add(new Node(x-1, y+1));
-        hood.add(new Node(x-1, y));
-        hood.add(new Node(x-1, y-1));
-            
-        // Make sure the neighbors have their goal.
-        for (Node n : hood) {
-            n.setParent(current);
-            
-            int cost = this.calculateCostToGoal(n);
-            n.setCostToGoal(cost);
-            
-            if (n.getX() == x) {
-                n.setMovementCost(10);
-            }
-            else {
-                n.setMovementCost(15);
-            }
-        }
-    }
-        
 
     
     
