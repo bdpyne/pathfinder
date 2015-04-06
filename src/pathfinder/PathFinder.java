@@ -103,7 +103,7 @@ public class PathFinder {
         boolean inList = false;
         
         for (Node n : list) {
-            if (n == node) {
+            if (n.equals(node)) {
                 inList = true;
                 break;
             }
