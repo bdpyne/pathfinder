@@ -50,8 +50,7 @@ public class PathFinder {
                 
             Collections.sort(open);
             current = open.get(0);
-            
-            
+                        
             current.print();
             
             open.remove(current);
