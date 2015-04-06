@@ -8,6 +8,7 @@ package pathfinder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 /**
  *
@@ -36,6 +37,7 @@ public class PathFinder {
         int cost = this.calculateTravelCost(start, goal);
         start.setCostToGoal(cost);
         found  = false;       
+        path   = new Stack<Node>();
     }
     
     
@@ -50,8 +52,6 @@ public class PathFinder {
             Collections.sort(open);
             current = open.get(0);
                         
-            current.print();
-            
             open.remove(current);
             closed.add(current);
             
@@ -64,10 +64,39 @@ public class PathFinder {
                 current.buildNeighborhood();
                 addNeighborsToOpen(current);       
             }
-        }        
+        }
+        
+        buildPathToGoal();
+        
+        while(!path.isEmpty()) {
+            Node n = path.pop();
+            n.print();
+        }
     }
     
 
+    private void buildPathToGoal() {
+        // Walk the list to get to the goal.
+        Node end = null;
+        
+        // Start reached
+        Node parent = null;
+        
+        for (Node n : closed) {
+            end = n;
+        }
+        
+        path.push(end);
+        parent = end.getParent();
+        
+        while(parent!= null) {
+            path.push(parent);
+            parent = parent.getParent();
+        }
+    }
+    
+    
+    
     /**
      * 
      * @param current 
@@ -146,5 +175,6 @@ public class PathFinder {
     private final List<Node> closed;
     private final Node       start;
     private final Node       goal;
-    private       boolean    found;    
+    private       boolean    found;
+    private final Stack<Node> path;
 }

@@ -29,7 +29,9 @@ public class Node implements Comparable<Node> {
         System.out.println("x: " + x);
         System.out.println("y: " + y);
         System.out.println("cost of movement: " + costOfMovement);
-        System.out.println("cost to goal: " + costToGoal);            
+        System.out.println("cost to goal: " + costToGoal);    
+        if (parent != null)
+            System.out.println("parent: " + parent.getX() + "," + parent.getY());
     }
         
         
@@ -122,6 +124,15 @@ public class Node implements Comparable<Node> {
         this.parent = parent;
     }
         
+    
+    /**
+     * 
+     * @return 
+     */
+    public Node getParent() {
+        return this.parent;
+    }
+    
 
     /**
      * 
