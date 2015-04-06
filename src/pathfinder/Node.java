@@ -11,19 +11,6 @@ import java.util.List;
 public class Node implements Comparable<Node> {
     
     /**
-     * 
-     * @param x
-     * @param y 
-     */
-    public Node(int x, int y, Node goal) {
-        this.x       = x;
-        this.y       = y;
-        this.hood    = new ArrayList<>();
-        this.goal    = goal;
-    }
-        
-    
-    /**
      * This constructor gets used by the goal node only.
      * @param x
      * @param y 
@@ -48,49 +35,31 @@ public class Node implements Comparable<Node> {
         
     /**
      * 
-     * @param current 
      */
-    public void buildNeighborhood() {
-        
-        hood.add(new Node(x, y-1, goal));
-        hood.add(new Node(x+1, y-1, goal));
-        hood.add(new Node(x+1, y, goal));
-        hood.add(new Node(x+1, y+1, goal));
-        hood.add(new Node(x, y+1, goal));
-        hood.add(new Node(x-1, y+1, goal));
-        hood.add(new Node(x-1, y, goal));
-        hood.add(new Node(x-1, y-1, goal));
+    public void buildNeighborhood() { 
+        hood.add(new Node(x, y-1));
+        hood.add(new Node(x+1, y-1));
+        hood.add(new Node(x+1, y));
+        hood.add(new Node(x+1, y+1));
+        hood.add(new Node(x, y+1));
+        hood.add(new Node(x-1, y+1));
+        hood.add(new Node(x-1, y));
+        hood.add(new Node(x-1, y-1));
             
         // Make sure the neighbors have their goal.
         for (Node n : hood) {
             n.setParent(this);
-            
-            int cost = this.calculateCostToGoal(n);
-            n.setCostToGoal(cost);
-            
-            if (n.getX() == x) {
-                n.setMovementCost(10);
+                
+            if ((n.getX() != x) && (n.getY() != y)) {
+                // Clearly a diagonal neighbor
+                n.setMovementCost(15);
             }
             else {
-                n.setMovementCost(15);
+                n.setMovementCost(10);
             }
         }
     }
         
-        
-    /**
-     * 
-     * @param other
-     * @return 
-     */
-    private int calculateCostToGoal(Node node) {
-        int diffX = Math.abs(goal.getX() - node.getX());
-        int diffY = Math.abs(goal.getY() - node.getY());
-        
-        return (diffX + diffY) * 10;
-    }
-
-            
         
     /**
      * 
@@ -249,5 +218,4 @@ public class Node implements Comparable<Node> {
     private int                 costOfMovement;
     private int                 costToGoal;
     private Node                parent;
-    private Node                goal;
 }

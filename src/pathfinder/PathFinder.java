@@ -32,7 +32,9 @@ public class PathFinder {
         open   = new ArrayList<>();
         closed = new ArrayList<>();
         goal   = new Node(4,5);
-        start  = new Node(4,1, goal);
+        start  = new Node(4,1);
+        int cost = this.calculateTravelCost(start, goal);
+        start.setCostToGoal(cost);
         found  = false;       
     }
     
@@ -44,10 +46,7 @@ public class PathFinder {
         Node current = start;
         open.add(current);
         
-//        while (! found) {
-            // Temporarily impose a 100 iteration limit.
-            for (int i=0; i < 100; i++) {
-                
+        while (! found) {                
             Collections.sort(open);
             current = open.get(0);
                         
@@ -61,16 +60,39 @@ public class PathFinder {
                 System.out.println("INFO: Found goal " + current.getX() + "," + current.getY());
             }
             else {
+                updateTravelCost(current);
                 current.buildNeighborhood();
-                addNeighborsToOpen(current);                
+                addNeighborsToOpen(current);       
             }
-                
-            }
- //       }
-        
+        }        
     }
     
+
+    /**
+     * 
+     * @param current 
+     */
+    private void updateTravelCost(Node current) {
+        for (Node n : open) {
+            int cost = this.calculateTravelCost(current, n);
+            n.setMovementCost(cost);
+        }
+    }
     
+    /**
+     * 
+     * @param from
+     * @param to
+     * @return 
+     */
+    public int calculateTravelCost(Node from, Node to) {
+        int diffX = Math.abs(to.getX() - from.getX());
+        int diffY = Math.abs(to.getY() - from.getY());
+        
+        return (diffX + diffY) * 10;
+    }
+    
+        
     /**
      * 
      * @param list
@@ -103,18 +125,16 @@ public class PathFinder {
             }
             else if (! isInList(open, n)) {
                 n.setParent(current);
+                int costToGoal = this.calculateTravelCost(goal, n);
+                n.setCostToGoal(costToGoal);                
                 open.add(n);
             }
             else {
-                int cost = 10;
+                int costToCurrent = this.calculateTravelCost(current, n);
                 
-                if (n.getX() != current.getX()) {
-                    cost = 15;
-                }
-                
-                if (cost < n.getMovementCost()) {
+                if (costToCurrent < n.getMovementCost()) {
                     n.setParent(current);
-                    n.setMovementCost(cost);
+                    n.setMovementCost(costToCurrent);
                 }
             }
         }
